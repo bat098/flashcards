@@ -1,14 +1,13 @@
 # Dokument wymagań produktu (PRD) - Fiszki AI (MVP)
 ## 1. Przegląd produktu
 ### 1.1 Cel produktu
-Celem MVP jest przyspieszenie tworzenia wysokiej jakości fiszek do nauki metodą spaced repetition poprzez generowanie propozycji fiszek przez AI na podstawie wklejonego tekstu, z jednoczesnym zachowaniem kontroli jakości po stronie użytkownika (akceptacja/edycja/usunięcie).
+Celem MVP jest przyspieszenie tworzenia wysokiej jakości fiszek poprzez generowanie propozycji fiszek przez AI na podstawie wklejonego tekstu, z jednoczesnym zachowaniem kontroli jakości po stronie użytkownika (akceptacja/edycja/usunięcie).
 
 ### 1.2 Grupa docelowa
 Osoby przygotowujące się do egzaminu B2 First (FCE), uczące się słownictwa i definicji w języku angielskim.
 
 ### 1.3 Kontekst użycia i platforma
 - Platforma: aplikacja web (desktop web).
-- Model nauki: spaced repetition z wykorzystaniem gotowego (open-source) algorytmu powtórek.
 - Organizacja treści: wyłącznie zestawy (decks); brak tagów/kategorii.
 
 ### 1.4 Najmniejszy zestaw funkcjonalności (MVP)
@@ -16,7 +15,6 @@ Osoby przygotowujące się do egzaminu B2 First (FCE), uczące się słownictwa 
 - Manualne tworzenie fiszek.
 - Przeglądanie, edycja i usuwanie fiszek.
 - Prosty system kont użytkowników do przechowywania fiszek.
-- Integracja z gotowym algorytmem powtórek i prosta sesja nauki.
 
 ### 1.5 Założenia kluczowe (ustalone)
 - Format fiszek: wyłącznie przód/tył (front/back).
@@ -28,18 +26,10 @@ Osoby przygotowujące się do egzaminu B2 First (FCE), uczące się słownictwa 
 - Regeneracja: użytkownik może ponownie uruchomić generowanie z tego samego tekstu; jeśli regeneruje w trakcie edycji listy, aktualna lista i zmiany przepadają (brak wersjonowania).
 - Weryfikacja email jest obowiązkowa i blokuje wszystkie akcje produktowe do czasu weryfikacji.
 - Brak dodatkowych mechanizmów kontroli jakości AI poza weryfikacją użytkownika.
-- Powtórki (nauka) wykorzystują gotowy, darmowy, open-source algorytm jako bibliotekę (np. SM-2 lub FSRS).
-- W sesji nauki użytkownik ocenia kartę 4 przyciskami: Again, Hard, Good, Easy.
-- Przebieg karty: front → pokaż odpowiedź → ocena → następna karta.
-- Globalny limit dzienny: maksymalnie 50 kart łącznie (review + new).
-- Dobór kolejki dla sesji (start z poziomu zestawu): najpierw review (due) sortowane rosnąco po due (najbardziej zaległe pierwsze), a jeśli zostaje limit, dobierane są new w kolejności utworzenia (oldest first).
-- Sesja nie jest wznawialna: przerwanie kończy sesję; ponowny start wylicza aktualną kolejkę na dziś.
-- Zaległe due kumulują się bez dodatkowych limitów; jedyne ograniczenie to limit dzienny 50.
-- Nie obsługujemy scenariusza równoległych sesji na tym samym zestawie (np. w dwóch kartach przeglądarki) w MVP.
 
 ## 2. Problem użytkownika
 ### 2.1 Główny problem
-Manualne tworzenie wysokiej jakości fiszek edukacyjnych jest czasochłonne, co zniechęca do korzystania z efektywnej metody nauki jaką jest spaced repetition.
+Manualne tworzenie wysokiej jakości fiszek edukacyjnych jest czasochłonne, co zniechęca do regularnej nauki i powtarzania materiału.
 
 ### 2.2 Dlaczego to istotne dla grupy docelowej
 Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słownictwo i definicje. Czas potrzebny na przygotowanie fiszek często przewyższa czas na naukę, przez co użytkownik rezygnuje z metody lub obniża jakość materiału.
@@ -52,7 +42,7 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
 ### 2.4 Jak MVP rozwiązuje problem
 - AI automatyzuje przygotowanie pierwszej wersji fiszek na podstawie wklejonego tekstu.
 - Użytkownik weryfikuje i zatwierdza tylko to, co faktycznie trafi do nauki.
-- Zestawy umożliwiają utrzymanie porządku i szybkie uruchomienie sesji powtórek.
+- Zestawy umożliwiają utrzymanie porządku i szybkie przechodzenie do nauki.
 
 ## 3. Wymagania funkcjonalne
 ### 3.1 Konto użytkownika i bezpieczeństwo dostępu
@@ -69,8 +59,7 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
 - Do czasu weryfikacji email użytkownik nie może wykonywać akcji produktowych, w szczególności:
   - tworzyć/edytować/usuwać zestawów,
   - tworzyć/edytować/usuwać fiszek,
-  - generować fiszek przez AI,
-  - uruchamiać sesji nauki.
+  - generować fiszek przez AI.
 
 3.1.3 Logowanie i wylogowanie
 - Użytkownik może zalogować się email + hasło.
@@ -106,7 +95,7 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
   - pokazuje nazwę, opis (lub skrót), liczbę fiszek, datę ostatniej modyfikacji (jeśli dostępna).
 - Szczegóły zestawu:
   - lista fiszek w zestawie,
-  - akcje: dodaj fiszkę manualnie, generuj fiszki przez AI, rozpocznij naukę.
+  - akcje: dodaj fiszkę manualnie, generuj fiszki przez AI.
 
 ### 3.3 Fiszki
 3.3.1 Model fiszki (MVP)
@@ -173,41 +162,7 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
   - stan końcowy propozycji: zaakceptowana bez zmian / zaakceptowana po edycji / usunięta,
   - fakt finalnej akceptacji listy (czy zapisano do zestawu).
 
-### 3.5 Nauka (integracja z gotowym algorytmem powtórek)
-3.5.1 Założenia
-- System korzysta z gotowego, darmowego, open-source algorytmu powtórek jako biblioteki (np. SM-2 lub FSRS).
-- Aplikacja nie implementuje własnego, zaawansowanego algorytmu powtórek (jak Anki/SuperMemo); integruje gotowe rozwiązanie.
-- Każda karta w sesji jest oceniana jednym z 4 grade: Again, Hard, Good, Easy.
-- Stan powtórek jest przechowywany w bazie danych per fiszka.
-
-3.5.2 Sesja nauki (MVP)
-- Start sesji:
-  - użytkownik uruchamia sesję z poziomu konkretnego zestawu,
-  - system wylicza kolejkę na dziś w ramach globalnego limitu 50 kart łącznie (review + new),
-  - kolejka jest dobierana w priorytecie:
-    - review (karty due) sortowane rosnąco po due (najbardziej zaległe pierwsze),
-    - jeśli zostaje limit, dobierane są new w kolejności utworzenia (oldest first).
-- Przebieg karty:
-  - użytkownik widzi front,
-  - użytkownik klika pokaż odpowiedź, aby odsłonić back,
-  - przyciski Again/Hard/Good/Easy są zablokowane do momentu odsłonięcia back,
-  - wybór oceny zapisuje wynik do algorytmu i przechodzi do następnej fiszki.
-- Zaległości:
-  - karty due nieprzerobione danego dnia kumulują się bez dodatkowych limitów; jedyne ograniczenie to limit dzienny 50.
-- Zakończenie i podsumowanie:
-  - sesja kończy się po wyczerpaniu kolejki,
-  - UI pokazuje podsumowanie: X/50, rozbicie new/review oraz liczniki ocen Again/Hard/Good/Easy.
-- Przerwanie sesji:
-  - sesja nie jest wznawialna; przerwanie kończy sesję,
-  - ponowne uruchomienie sesji wylicza aktualną kolejkę na dziś.
-
-3.5.3 Spójność z zakresem MVP
-- MVP nie zawiera budowy własnego algorytmu, porównywalnego do Anki/SuperMemo.
-- MVP nie oferuje zaawansowanych ustawień algorytmu (np. parametry, tryby, personalizacja interwałów) poza tym, co wynika z integracji biblioteki.
-- MVP nie oferuje dashboardu agregującego powtórki ze wszystkich zestawów; sesja startuje z poziomu konkretnego zestawu.
-- MVP nie obsługuje równoległych sesji na tym samym zestawie (brak blokad/konfliktów).
-
-### 3.6 Wymagania niefunkcjonalne (minimalne, ale krytyczne dla MVP)
+### 3.5 Wymagania niefunkcjonalne (minimalne, ale krytyczne dla MVP)
 - Dostępność: podstawowa obsługa klawiatury w kluczowych formularzach (rejestracja, logowanie, edycja fiszki, akceptacja listy).
 - Niezawodność: czytelne komunikaty błędów dla awarii generowania AI, problemów sieciowych oraz błędów walidacji.
 - Wydajność: generowanie AI może trwać dłużej; UI musi pokazać stan ładowania i umożliwić bezpieczny powrót (bez utraty zapisanych danych).
@@ -215,7 +170,7 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
 
 ## 4. Granice produktu
 ### 4.1 Poza zakresem MVP
-- Własny, zaawansowany algorytm powtórek (jak SuperMemo, Anki).
+- Powtórki (sesje nauki) oraz algorytmy SRS, w tym rozwiązania open-source (np. SuperMemo, Anki).
 - Import wielu formatów (PDF, DOCX itp.).
 - Współdzielenie zestawów fiszek między użytkownikami.
 - Integracje z innymi platformami edukacyjnymi.
@@ -225,7 +180,6 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
 
 ### 4.2 Ograniczenia i decyzje produktowe
 - Jedyny typ fiszek: front/back, EN→EN, słownictwo + definicje.
-- Brak wyboru trybu nauki i brak explicit grading.
 - Twardy limit wejścia do AI: 10 000 znaków.
 - Limit długości pól fiszki: 1000 znaków na front i 1000 na back.
 - Regeneracja zastępuje bieżącą listę propozycji i usuwa niezapisane zmiany.
@@ -249,7 +203,7 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
   Kryteria akceptacji:
   - Link aktywacyjny działa tylko raz i wygasa po 1 godzinie od wysłania.
   - Po kliknięciu poprawnego, niewygasłego linku konto przechodzi w stan zweryfikowany.
-  - Po weryfikacji użytkownik może wykonywać akcje produktowe (zestawy, fiszki, AI, nauka).
+  - Po weryfikacji użytkownik może wykonywać akcje produktowe (zestawy, fiszki, AI).
   - Jeśli link jest niepoprawny lub został użyty, użytkownik widzi komunikat o błędzie oraz opcję ponownej wysyłki linku.
 
 - ID: US-003
@@ -283,7 +237,6 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
   Kryteria akceptacji:
   - Użytkownik nieweryfikowany nie może tworzyć/edytować/usuwać zestawów ani fiszek.
   - Użytkownik nieweryfikowany nie może uruchomić generowania AI.
-  - Użytkownik nieweryfikowany nie może uruchomić sesji nauki.
   - UI wyświetla spójny komunikat o konieczności weryfikacji oraz zapewnia akcję resend.
   - API odrzuca próby wykonania powyższych akcji przez użytkownika nieweryfikowanego (nawet przy ręcznym wywołaniu).
 
@@ -340,10 +293,10 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
 
 - ID: US-013
   Tytuł: Widok szczegółów zestawu
-  Opis: Jako zweryfikowany użytkownik chcę wejść w szczegóły zestawu, aby zarządzać fiszkami i rozpocząć naukę.
+  Opis: Jako zweryfikowany użytkownik chcę wejść w szczegóły zestawu, aby zarządzać fiszkami.
   Kryteria akceptacji:
   - Widok pokazuje nazwę, opis i listę fiszek.
-  - Widok udostępnia akcje: dodaj fiszkę manualnie, generuj przez AI, rozpocznij naukę.
+  - Widok udostępnia akcje: dodaj fiszkę manualnie, generuj przez AI.
   - Użytkownik widzi stan pusty, gdy zestaw nie zawiera fiszek.
 
 ### 5.3 Fiszki - CRUD manualny
@@ -456,32 +409,7 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
   - Jeśli odpowiedź AI nie zawiera listy propozycji z polami front/back, UI pokazuje błąd i proponuje ponowienie generowania.
   - System nie tworzy fiszek w bazie danych bez finalnej akceptacji użytkownika.
 
-### 5.5 Nauka (sesje) z gotowym algorytmem powtórek
-- ID: US-027
-  Tytuł: Uruchomienie sesji nauki dla zestawu
-  Opis: Jako zweryfikowany użytkownik chcę uruchomić sesję nauki dla zestawu, aby powtarzać fiszki.
-  Kryteria akceptacji:
-  - Użytkownik może uruchomić sesję z poziomu szczegółów zestawu.
-  - Jeśli zestaw nie ma fiszek, UI blokuje start i pokazuje komunikat.
-  - Po starcie użytkownik widzi pierwszą fiszkę zgodnie z kolejką algorytmu.
-
-- ID: US-028
-  Tytuł: Przejście przez fiszkę bez oceniania trudności
-  Opis: Jako użytkownik chcę przechodzić przez fiszki w sesji bez wybierania oceny, aby nauka była prosta i szybka.
-  Kryteria akceptacji:
-  - Dla każdej fiszki użytkownik widzi front i może odsłonić back.
-  - Użytkownik może przejść do następnej fiszki.
-  - UI nie wymaga oceny trudności (brak przycisków typu łatwe/trudne).
-
-- ID: US-029
-  Tytuł: Zakończenie sesji i podsumowanie postępu
-  Opis: Jako użytkownik chcę zakończyć sesję i zobaczyć podsumowanie, aby wiedzieć, że wykonałem zaplanowaną powtórkę.
-  Kryteria akceptacji:
-  - Po przejściu przez całą kolejkę sesja kończy się automatycznie.
-  - UI pokazuje co najmniej liczbę przerobionych fiszek (X).
-  - Użytkownik może wrócić do zestawu po zakończeniu.
-
-### 5.6 Autoryzacja danych i scenariusze skrajne
+### 5.5 Autoryzacja danych i scenariusze skrajne
 - ID: US-030
   Tytuł: Brak dostępu do danych innych użytkowników
   Opis: Jako użytkownik chcę mieć pewność, że nikt nie zobaczy moich zestawów ani fiszek.
@@ -532,6 +460,6 @@ Osoby uczące się do B2 First (FCE) potrzebują regularnej ekspozycji na słown
 - Czy kryteria akceptacji są jasne i konkretne?
   - Tak: uwzględniono limity (10 000, 1000), stany (zweryfikowany/nieweryfikowany), oraz warunki błędów.
 - Czy mamy wystarczająco dużo historyjek użytkownika, aby zbudować w pełni funkcjonalną aplikację?
-  - Tak dla MVP: obejmują pełny zakres konta, zestawów, fiszek, generowania AI z akceptacją i regeneracją oraz sesję nauki.
+  - Tak dla MVP: obejmują pełny zakres konta, zestawów, fiszek oraz generowania AI z akceptacją i regeneracją.
 - Czy uwzględniliśmy wymagania dotyczące uwierzytelniania i autoryzacji?
   - Tak: historie US-001 do US-008 oraz US-030 do US-031 pokrywają rejestrację, weryfikację email, zmianę hasła, usunięcie konta, autoryzację danych i wygaśnięcie sesji.

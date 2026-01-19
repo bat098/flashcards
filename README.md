@@ -1,6 +1,6 @@
 # Fiszki AI (AI Flashcards) — MVP
 
-AI-assisted flashcard creation for spaced repetition learning. The MVP focuses on generating **high-quality flashcard suggestions from pasted English text**, while keeping **full user control** via review, edit, accept, and remove actions.
+AI-assisted flashcard creation for faster learning. The MVP focuses on generating **high-quality flashcard suggestions from pasted English text**, while keeping **full user control** via review, edit, accept, and remove actions.
 
 [![Node](https://img.shields.io/badge/node-22.14.0-339933?logo=node.js&logoColor=white)](#4-getting-started-locally)
 [![Astro](https://img.shields.io/badge/astro-5-ff5d01?logo=astro&logoColor=white)](https://astro.build/)
@@ -23,7 +23,7 @@ AI-assisted flashcard creation for spaced repetition learning. The MVP focuses o
 
 ## 2. Project description
 
-The MVP goal is to reduce the time it takes to create good flashcards for spaced repetition learning by using AI to generate **10 flashcard proposals** from a pasted text, and then letting the user:
+The MVP goal is to reduce the time it takes to create good flashcards by using AI to generate **10 flashcard proposals** from a pasted text, and then letting the user:
 
 - **Accept** proposals unchanged
 - **Edit** front/back and accept after editing
@@ -47,7 +47,7 @@ Product docs live in:
 
 - **Backend & database (planned for MVP)**
   - **Supabase** (Auth + Postgres + RLS)
-  - Mandatory **email verification** before any product action (create/edit decks/cards, AI generation, study session)
+  - Mandatory **email verification** before any product action (create/edit decks/cards, AI generation, study mode)
 
 - **AI provider (planned for MVP)**
   - **OpenRouter** via server-side API calls (API keys must never be exposed to the client)
@@ -107,7 +107,7 @@ From `package.json`:
 - **Decks**
   - Create / edit / delete decks
   - Deck list shows name, optional description, and card count
-  - Deck details view with card list and actions (add manual card, generate via AI, start study session)
+  - Deck details view with card list and actions (add manual card, generate via AI, start study mode)
 
 - **Cards (flashcards)**
   - Simple **front/back** format (EN → EN: vocabulary + definitions)
@@ -122,20 +122,15 @@ From `package.json`:
   - Validation: reject malformed AI output (missing `front`/`back`) and enforce field length limits
   - Minimal metrics per generation: generation id, proposal id, final state (`accepted_unchanged`, `accepted_edited`, `removed`), and whether the list was committed
 
-- **Study session (spaced repetition)**
-  - Integrate an open-source algorithm library (e.g. **SM-2** or **FSRS**)
-  - Per-card scheduling state stored in the database
-  - Daily global limit: **50 cards/day** (reviews + new)
-  - Queue rules:
-    - First: due reviews sorted by increasing due date (most overdue first)
-    - Then: new cards by creation order (oldest first) until the limit is reached
-  - Session flow: show front → reveal back → grade using **Again / Hard / Good / Easy** → next card
-  - Session is **not resumable**; restarting recalculates today’s queue
-  - Summary view: totals (X/50), new vs review, grade counts
+- **Study mode**
+  - Start a study session from a deck
+  - Simple flow: show front → reveal back → next card
+  - No grading and no spaced-repetition scheduling logic
+
 
 ### Out of scope (explicitly not in MVP)
 
-- Custom advanced SRS algorithm (like Anki/SuperMemo)
+- Spaced repetition algorithms/scheduling and per-card grading (e.g. Anki/SuperMemo)
 - Imports (PDF/DOCX/etc.)
 - Sharing decks between users or public links
 - Mobile native apps (web only for MVP)
@@ -152,7 +147,7 @@ From `package.json`:
 
 **Early stage / MVP in progress.**
 
-This repository currently provides the Astro/React/Tailwind foundation (and lint/format tooling). The PRD and tech stack docs define the target MVP features (auth, decks/cards, AI generation, and SRS sessions) that will be implemented next.
+This repository currently provides the Astro/React/Tailwind foundation (and lint/format tooling). The PRD and tech stack docs define the target MVP features (auth, decks/cards, AI generation) that will be implemented next.
 
 ## 8. License
 
